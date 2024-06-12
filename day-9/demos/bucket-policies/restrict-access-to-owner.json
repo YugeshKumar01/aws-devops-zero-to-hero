@@ -19,3 +19,32 @@
     }
   ]
 }
+
+
+Below is the code for give access to a particular user as well as admin:
+
+
+{
+    "Version": "2012-10-17",
+    "Id": "RestrictBucketToIAMUsersOnly",
+    "Statement": [
+        {
+            "Sid": "AllowOwnerOnlyAccess",
+            "Effect": "Deny",
+            "Principal": "*",
+            "Action": "s3:*",
+            "Resource": [
+                "arn:aws:s3:::<bucket-name>/*",
+                "arn:aws:s3:::<bucket-name"
+            ],
+            "Condition": {
+                "StringNotEquals": {
+                    "aws:PrincipalArn": [
+                        "arn:aws:iam::<account-id>:root",
+                        "arn:aws:iam::<account-id:user/<user-name>" //give a user name to whom you want to access
+                    ]
+                }
+            }
+        }
+    ]
+}
